@@ -14,3 +14,11 @@ export const singUpSchema = Yup.object({
     .matches(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,"Password must contain atleast 6 charachters 1 lowercase ,1 uppercase ,1 spesiall characters")
 
 });
+
+export const singInSchema = Yup.object({
+    email:Yup.string()
+    .required("Email address is required.")
+    .email("Invalid email adress."),
+    password:Yup.string().required("Password is required.")
+
+});
