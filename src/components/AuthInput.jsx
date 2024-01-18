@@ -3,7 +3,7 @@ import React from 'react'
 export default function AuthInput({name,type,placeholder,register,error}) {
   return (
     <div>
-      <div className='mt-8 container-center text-white space-y-1'>
+      <div className='flex0030 max-w-[30%] mt-8 container-center text-white space-y-1'>
         <label htmlFor={name} className='text-sm font-bold tracking-wide'>
             {placeholder}
         </label>
