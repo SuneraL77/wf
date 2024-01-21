@@ -42,7 +42,7 @@ export default function Login() {
           <p className="mt-2 text-sm">Sign In</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-6 w-full">
    
           <AuthInput
             name="email"

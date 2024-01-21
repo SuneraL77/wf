@@ -7,9 +7,6 @@
     width: calc(100% -38px);
     max-width: 1600px;
   }
-  .flex0030 {
-    flex: 0 0 30%
-  }
   .customh1 {
     @apply text-blue-500 bg-red-200;
   }
