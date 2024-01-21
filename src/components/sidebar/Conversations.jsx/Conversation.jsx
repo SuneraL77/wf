@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { open_create_conversations } from "../../../app/features/chatSlice";
 import { getConversationId ,getConversationName ,getConversationPicture} from "../../../utils/chat";
 import  SocketContext from "../../../context/SocketContext" 
-function Conversation({ convo, Socket }) {
+function Conversation({ convo, socket }) {
   const dispath = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
@@ -14,15 +14,12 @@ function Conversation({ convo, Socket }) {
     receiver_id: getConversationId(user, convo.users),
   };
 
-  const openConversation = async () =>{
-   await dispath(open_create_conversations(values));
-    Socket.emit("Join conversation", activeConversation._id)
-  }
-  
  
-  const openconversations = () => {
-    dispath(open_create_conversations(values));
+  const openconversations = async () => {
+   await dispath(open_create_conversations(values));
+    socket.emit("Join conversation", activeConversation._id)
   };
+  console.log(activeConversation)
   return (
     <li
       onClick={() => openconversations()}
@@ -66,10 +63,12 @@ function Conversation({ convo, Socket }) {
   );
 }
 
-const ConverstionWithContext = (props) =>{
-  <SocketContext.ConSumer>
-    {(socket) =><Conversation {...props} socket={socket}/>}
-  </SocketContext.ConSumer>
+const ConverstionWithContext = (props) => {
+  return (
+    <SocketContext.Consumer>
+      {(socket) => <Conversation {...props} socket={socket} />}
+    </SocketContext.Consumer>
+  );
 }
 
-export default ConverstionWithContext
+export default ConverstionWithContext;
