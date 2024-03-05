@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { open_create_conversations } from "../../../app/features/chatSlice";
 import { getConversationId ,getConversationName ,getConversationPicture} from "../../../utils/chat";
 import  SocketContext from "../../../context/SocketContext" 
-function Conversation({ convo, socket }) {
+function Conversation({ convo, socket ,online}) {
   const dispath = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
@@ -16,20 +16,20 @@ function Conversation({ convo, socket }) {
 
  
   const openconversations = async () => {
-   await dispath(open_create_conversations(values));
-    socket.emit("Join conversation", activeConversation._id)
+   let newConvo = await dispath(open_create_conversations(values));
+    socket.emit("Join conversation", newConvo.payload._id)
   };
-  console.log(activeConversation)
+
   return (
     <li
       onClick={() => openconversations()}
-      className={`list-none h-[72px] w-full dark:bg-dark_bg_1 hover:dark:bg-dark_bg_2 dark:text-dark_text_1 cursor-pointer ${convo._id === activeConversation._id ?"" :"dark:bg-dark_bg_2"} ${convo._id === activeConversation._id ? "dark:bg-dark_hover_1":""}` }
+      className={`list-none h-[72px] w-full dark:bg-dark_bg_1 hover:dark:bg-dark_bg_2 dark:text-dark_text_1 cursor-pointer ${convo._id === activeConversation._id ?"" :"dark:bg-dark_bg_2"} ${convo._id === activeConversation._id ? "dark:bg-dark_hover_1":""} `}
     >
       {/*Container */}
-      <div className="relavite w-full flex items-center justify-between py-[10px]">
+      <div className={`relavite w-full flex items-center justify-between py-[10px] `}>
         {/*Left */}
         <div className="flex items-center gap-x-3">
-          <div className="relative min-w-[50px] h-[50px] rounded-full overflow-hidden">
+          <div className={`relative min-w-[50px] h-[50px] rounded-full overflow-hidden  ${online? "online":""}` }>
             <img
               src={getConversationPicture(user, convo.users)}
               alt={getConversationName(user, convo.users)}

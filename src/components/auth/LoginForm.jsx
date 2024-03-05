@@ -10,7 +10,7 @@ import { loginUser} from "../../app/features/userSlice";
 
 
 export default function Login() {
-  console.log(process.env.REACT_APP_API_ENDPOINT);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { status, error } = useSelector((state) => state.user);

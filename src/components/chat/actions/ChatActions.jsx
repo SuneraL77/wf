@@ -6,8 +6,9 @@ import Input from "./Input";
 import { useDispatch, useSelector } from "react-redux";
 import { sendMessage } from "../../../app/features/chatSlice";
 import { ClipLoader } from "react-spinners";
+import SocketContext from "../../../context/SocketContext";
 
-export default function ChatActions() {
+function ChatActions({socket}) {
   const dispatch = useDispatch();
   const [showPicker, setShowPicker] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,9 @@ export default function ChatActions() {
   const SendMessageHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await dispatch(sendMessage(values));
+  let newMsg = await dispatch(sendMessage(values));
+   socket.emit("send message",newMsg.payload);
+
     setMessage("");
     setLoading(false);
   };
@@ -41,11 +44,10 @@ export default function ChatActions() {
       <div className="w-full flex items-center gap-x-2">
         <ul className="flex gap-x-2">
           <EmaojiPickerApp
-            textRef={textRef}
+      textRef={textRef}
             message={message}
             setMessage={setMessage}
-            showPicke={showPicker}
-            setShowPicker={setShowPicker}
+          
           />
           <Attachments
             showAtatchments={showAtatchments}
@@ -66,3 +68,9 @@ export default function ChatActions() {
     </form>
   );
 }
+const CahatActionsWithSocket  = (props) =>(
+  <SocketContext.Consumer>
+    {(socket) => <ChatActions {...props} socket={socket}/>}
+  </SocketContext.Consumer>
+)
+export default CahatActionsWithSocket 

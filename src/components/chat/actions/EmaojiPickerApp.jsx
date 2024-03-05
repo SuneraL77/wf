@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { CloseIcon, EmojiIcon } from "../../../svg";
 import EmojiPicker from "emoji-picker-react";
-export default function EmaojiPickerApp({ textRef, message, setMessage, showPicker,setShowPicker }) {
+export default function EmaojiPickerApp({textRef, message, setMessage  }) {
   const [cursorPosition, setCursorPosition] = useState();
-
+  const [showPicker, setShowPicker] = useState(false);
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
 
   const handleEmoji = (emojiData, e) => {
+
     const { emoji } = emojiData;
     const ref = textRef.current;
     ref.focus();

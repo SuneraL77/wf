@@ -1,9 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { open_create_conversations } from '../../../app/features/chatSlice';
+import SocketContext from '../../../context/SocketContext';
 
 
-export default function Contact({contact, setSearchResults}) {
+function Contact({contact, setSearchResults,socket }) {
 
   const dispath = useDispatch();
   const { user } = useSelector((state) => state.user);
@@ -14,9 +15,10 @@ export default function Contact({contact, setSearchResults}) {
   };
 
   const openconversations = async () => {
-   await  dispath(open_create_conversations(values));
+   let newConvo =  await  dispath(open_create_conversations(values));
+   socket.emit("Join conversation", newConvo.payload._id)
+   setSearchResults([]) 
     
-    setSearchResults([]) 
   };
   return (
     <li  onClick={() => openconversations(values)} className='list-none h-[72px] hover:dark:bg-dark_bg_2 cursor-pointer dark:text-dark_text_1 px-[10px]'>
@@ -51,3 +53,12 @@ export default function Contact({contact, setSearchResults}) {
     </li>
   )
 }
+const ContactWithContext = (props) => {
+  return (
+    <SocketContext.Consumer>
+      {(socket) => <Contact {...props} socket={socket} />}
+    </SocketContext.Consumer>
+  );
+}
+
+export default ContactWithContext;

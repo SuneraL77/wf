@@ -4,9 +4,9 @@ import { Notifications } from "./notifications";
 import { Search, SearchResults } from "./search";
 import { Conversations } from "./Conversations.jsx";
 
-export default function Sidebar() {
+export default function Sidebar({onlineUsers}) {
   const [searchResults, setSearchResults] = useState([]);
-  console.log(searchResults);
+ 
   return (
     <div className="w-[40%] h-full select-none">
       <SidebarHeader />
@@ -23,7 +23,7 @@ export default function Sidebar() {
         </>
       ) : (
         <>{/*Conversations */}
-              <Conversations />
+              <Conversations onlineUsers={onlineUsers}/>
         </>
       )}
 
